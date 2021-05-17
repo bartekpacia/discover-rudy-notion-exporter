@@ -7,6 +7,6 @@ type PlaceRecord struct {
 	Tags    []string
 	Town    string
 	Section string
-	Region string
+	Region  string
 	Coords  string
 }

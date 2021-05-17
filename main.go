@@ -68,6 +68,15 @@ func main() {
 				Coords:  props["Koordynaty"].RichText[0].PlainText,
 			}
 
+			resChildren, err := client.FindBlockChildrenByID(context.Background(), page.ID, &notion.PaginationQuery{})
+			if err != nil {
+				log.Fatalln("exporter: failed to get block children:", err)
+			}
+
+			for _, bloc := range resChildren.Results {
+				fmt.Printf("exporter: bloc type: %s\n", bloc.Type)
+			}
+
 			fmt.Printf("%v\n", placeRecord)
 		}
 	}
