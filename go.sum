@@ -1,0 +1,4 @@
+github.com/dstotijn/go-notion v0.1.0 h1:nz7bYmMOjyA7Rzb/hdvnqKXfkScCp9GfFNxIB2TwPZ8=
+github.com/dstotijn/go-notion v0.1.0/go.mod h1:wuaoSvdqGEgFCWOMlZq7ckERiARJRHchcN856Tj2J48=
+github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
+github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
