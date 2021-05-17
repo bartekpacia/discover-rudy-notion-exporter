@@ -44,17 +44,23 @@ func main() {
 	for _, page := range res.Results {
 		switch props := page.Properties.(type) {
 		case notion.DatabasePageProperties:
-			nameID := props["Nazwa"].ID
 
 			var tags []string
 			for _, v := range props["Tagi"].MultiSelect {
 				tags = append(tags, v.Name)
 			}
 
-			coordsRT := props["Koordynaty"].RichText
-			coords := coordsRT[0].PlainText
+			placeRecord := PlaceRecord{
+				Title:   props["Nazwa"].ID,
+				Type:    props["Typ"].Select.Name,
+				Town:    props["Miejscowość"].Select.Name,
+				Section: props["Sekcja"].Select.Name,
+				Region:  props["Region"].Select.Name,
+				Tags:    tags,
+				Coords:  props["Koordynaty"].RichText[0].PlainText,
+			}
 
-			fmt.Printf("name: %s, tags: %v, coords: %s\n", nameID, tags, coords)
+			fmt.Printf("%v\n", placeRecord)
 		}
 	}
 }
