@@ -47,7 +47,6 @@ func main() {
 		log.Fatalln("exporter: failed to query Notion database:", err)
 	}
 
-	fmt.Printf("exporter: got results! hasMore: %t, nextCursor: %p\n", res.HasMore, res.NextCursor)
 	for i := 0; i < recordCount; i++ {
 		page := res.Results[i]
 
@@ -71,5 +70,9 @@ func main() {
 
 			fmt.Printf("%v\n", placeRecord)
 		}
+	}
+
+	if res.HasMore {
+		fmt.Println("exporter: there are more records")
 	}
 }
