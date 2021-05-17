@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -11,37 +12,45 @@ import (
 )
 
 var (
-	API_KEY string
-	DB_ID   string
+	ApiKey     string
+	DatabaseID string
+)
+
+var (
+	recordCount int
 )
 
 func init() {
 	log.SetFlags(0)
+	flag.IntVar(&recordCount, "record-count", 10, "how many records to display")
 
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalln("exporter: failed to load .env file")
 	}
 
-	API_KEY = os.Getenv("NOTION_API_KEY")
-	DB_ID = os.Getenv("DATABASE_ID")
+	ApiKey = os.Getenv("NOTION_API_KEY")
+	DatabaseID = os.Getenv("DATABASE_ID")
 }
 
 func main() {
-	client := notion.NewClient(API_KEY)
+	flag.Parse()
+	client := notion.NewClient(ApiKey)
 
 	filter := notion.DatabaseQuery{Filter: notion.DatabaseQueryFilter{
 		Property: "Koordynaty",
 		Text:     notion.TextDatabaseQueryFilter{IsNotEmpty: true},
 	}}
 
-	res, err := client.QueryDatabase(context.Background(), DB_ID, filter)
+	res, err := client.QueryDatabase(context.Background(), DatabaseID, filter)
 	if err != nil {
 		log.Fatalln("exporter: failed to query Notion database:", err)
 	}
 
 	fmt.Printf("exporter: got results! hasMore: %t, nextCursor: %p\n", res.HasMore, res.NextCursor)
-	for _, page := range res.Results {
+	for i := 0; i < recordCount; i++ {
+		page := res.Results[i]
+
 		switch props := page.Properties.(type) {
 		case notion.DatabasePageProperties:
 
