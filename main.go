@@ -47,7 +47,7 @@ func main() {
 		log.Fatalln("exporter: failed to query Notion database:", err)
 	}
 
-	for i := 0; i < recordCount; i++ {
+	for i := 0; i < 3; i++ {
 		page := res.Results[i]
 
 		switch props := page.Properties.(type) {
@@ -66,15 +66,6 @@ func main() {
 				Region:  props["Region"].Select.Name,
 				Tags:    tags,
 				Coords:  props["Koordynaty"].RichText[0].PlainText,
-			}
-
-			resChildren, err := client.FindBlockChildrenByID(context.Background(), page.ID, &notion.PaginationQuery{})
-			if err != nil {
-				log.Fatalln("exporter: failed to get block children:", err)
-			}
-
-			for _, bloc := range resChildren.Results {
-				fmt.Printf("exporter: bloc type: %s\n", bloc.Type)
 			}
 
 			fmt.Printf("%v\n", placeRecord)
