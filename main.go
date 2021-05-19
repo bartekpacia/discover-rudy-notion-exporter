@@ -39,10 +39,10 @@ func main() {
 
 	filter := notion.DatabaseQuery{Filter: notion.DatabaseQueryFilter{
 		Property: "Koordynaty",
-		Text:     notion.TextDatabaseQueryFilter{IsNotEmpty: true},
+		Text:     &notion.TextDatabaseQueryFilter{IsNotEmpty: true},
 	}}
 
-	res, err := client.QueryDatabase(context.Background(), DatabaseID, filter)
+	res, err := client.QueryDatabase(context.Background(), DatabaseID, &filter)
 	if err != nil {
 		log.Fatalln("exporter: failed to query Notion database:", err)
 	}
@@ -59,7 +59,7 @@ func main() {
 			}
 
 			placeRecord := PlaceRecord{
-				Title:   props["Nazwa"].ID,
+				Title:   props["Nazwa"].Title[0].PlainText,
 				Type:    props["Typ"].Select.Name,
 				Town:    props["Miejscowość"].Select.Name,
 				Section: props["Sekcja"].Select.Name,
