@@ -8,36 +8,28 @@ import (
 	"os"
 
 	"github.com/dstotijn/go-notion"
-	"github.com/joho/godotenv"
 )
 
 var (
-	ApiKey     string
+	APIKey     string
 	DatabaseID string
 )
 
-var (
-	recordCount int
-)
+var recordCount int
 
 func init() {
 	log.SetFlags(0)
 	flag.IntVar(&recordCount, "record-count", 10, "how many records to display")
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalln("exporter: failed to load .env file")
-	}
-
-	ApiKey = os.Getenv("NOTION_API_KEY")
-	DatabaseID = os.Getenv("DATABASE_ID")
+	APIKey = os.Getenv("NOTION_API_KEY")
+	DatabaseID = os.Getenv("NOTION_DATABASE_ID")
 }
 
 func main() {
 	flag.Parse()
-	client := notion.NewClient(ApiKey)
+	client := notion.NewClient(APIKey)
 
-	filter := notion.DatabaseQuery{Filter: notion.DatabaseQueryFilter{
+	filter := notion.DatabaseQuery{Filter: &notion.DatabaseQueryFilter{
 		Property: "Koordynaty",
 		Text:     &notion.TextDatabaseQueryFilter{IsNotEmpty: true},
 	}}

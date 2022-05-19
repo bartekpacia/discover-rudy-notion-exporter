@@ -1,6 +1,6 @@
 package main
 
-/// PlaceRecord represents a single Notion database row.
+// PlaceRecord represents a single Notion database row.
 type PlaceRecord struct {
 	Title   string
 	Type    string
