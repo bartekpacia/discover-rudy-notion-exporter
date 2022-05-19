@@ -85,8 +85,16 @@ func main() {
 					log.Fatalln("failed to find block children for column_list by id:", err)
 				}
 
-				for j, cl := range cllist.Results {
-					log.Println("column", j, cl)
+				for j, blk2 := range cllist.Results {
+					if blk2.Column != nil {
+						log.Println("column", j, "len", len(blk2.Column.Children))
+						for i, w := range blk2.Column.Children {
+							log.Println("xd", i)
+							if w.Image != nil {
+								fmt.Printf("image url %s: \n", w.Image.File.URL)
+							}
+						}
+					}
 				}
 
 				if v.ColumnList != nil {
